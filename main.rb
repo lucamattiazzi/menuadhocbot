@@ -20,12 +20,12 @@ end
 post "/api/#{API_TOKEN}" do
   message = JSON.parse(request.body.read)
   if message["originalRequest"]["data"].present?
-    incipit = "Ciao " + TelegramMessage.new(message["originalRequest"]["data"]["message"]).save_and_return + ","
+    username = TelegramMessage.new(message["originalRequest"]["data"]["message"]).save_and_return
   else
-    incipit = "Ciao, "
+    username = "TizioCaio"
   end
   if message["result"]["action"] == "richiesta_ricetta"
-    result = incipit + "ti consiglio le seguenti ricette:" + RequestParser.new(message["result"]["parameters"]).parse
+    result = RequestParser.new(username, message["result"]["parameters"]).parse
     content_type :json
     standard_response(result)
   end

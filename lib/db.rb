@@ -33,6 +33,6 @@ unless ActiveRecord::Base.connection.data_source_exists? "telegram_messages"
   ActiveRecord::Base.connection.create_table(:telegram_messages) do |t|
     t.column :text, :string
     t.column :created_at, :datetime
-    t.references :telegram_user
+    t.references :user
   end
 end
