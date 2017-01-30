@@ -1,9 +1,9 @@
 # config valid only for current version of Capistrano
 lock '3.6.1'
 
-set :application, 'mah-bot-api'
-set :repo_url, 'git@github.com:YeasterEgg/mah_bot_api.git'
-set :deploy_to, '/var/www/mah-bot-api'
+set :application, 'menu_ad_hoc_bot'
+set :repo_url, 'git@github.com:YeasterEgg/menu_ad_hoc_bot.git'
+set :deploy_to, '/var/www/menu_ad_hoc_bot'
 set :log_level, :info
 set :keep_releases, 2
 
