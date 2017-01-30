@@ -3,6 +3,7 @@ require 'dotenv'
 Dotenv.load(".env")
 configure do
   set :server, :puma
+  set :port, 4568
 end
 
 API_TOKEN = ENV["API_TOKEN"]
