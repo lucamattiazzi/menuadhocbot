@@ -22,18 +22,21 @@ class RequestParser
   end
 
   def search_for_course_and_ingredients
-    return @ingredients.join(",") + @course
+    results = Wordpress::Post.search_ingredients(@ingredients)
+    return results.inject("Ciao #{@name}!\nTi consiglio:\n") do |text, res|
+      text += "#{res[:title]} : #{res[:url]}\n"
+    end
   end
 
   def search_for_ingredients
     results = Wordpress::Post.search_ingredients(@ingredients)
     return results.inject("Ciao #{@name}!\nTi consiglio:\n") do |text, res|
-      text += "<a href='#{res[:url]}'>#{res[:title]}</a>\n"
+      text += "#{res[:title]} : #{res[:url]}\n"
     end
   end
 
   def search_for_course
-    return "solo la " + @course
+    return "Mi spiace devo ancora implementare qualcosa che funzioni :("
   end
 
   def suggest_best_or_random
