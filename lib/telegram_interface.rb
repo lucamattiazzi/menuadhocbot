@@ -1,4 +1,4 @@
-class TelegramRequest
+class TelegramInterface
 
   attr_reader :message
 

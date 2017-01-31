@@ -3,6 +3,8 @@ module Telegram
     self.table_name = "telegram_users"
     has_many :messages
 
+    @@api = ::Telegram::Bot::Api.new(TELEGRAM_TOKEN)
+
     def incipit_response
       case
       when self[:requests_count] <= 1
@@ -17,6 +19,21 @@ module Telegram
     def update_recipe(post)
       self.update_attribute(:last_recipe_post_id, post[:ID])
       self.update_attribute(:last_recipe_post_request_date, Time.now)
+      self.update_attribute(:last_recipe_post_duration, 60 * 60)
+    end
+
+    def self.check_and_remember
+      users = self.where(last_recipe_post_feedback: 0).where("last_recipe_post_request_date <= ?", Time.now - self[:last_recipe_post_duration])
+      users.each do |user|
+        user.send_remind
+      end
+      return users.count
+    end
+
+    def send_remind
+      post = ::Wordpress::Post.find_by_ID(self[:last_recipe_post_id])
+      @@api.send_message(text: "Ehi! Hai preparato #{post[:post_title]}? Com'è andata??", chat_id: self[:telegram_id])
+      self.update_attribute(:last_recipe_post_feedback, 1)
     end
 
   end

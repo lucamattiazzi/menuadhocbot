@@ -8,7 +8,7 @@ class FallbackParser
   end
 
   def get_request
-    return TelegramRequest.new(@message["originalRequest"]["data"]["message"])
+    return TelegramInterface.new(@message["originalRequest"]["data"]["message"])
   end
 
   def parse

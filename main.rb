@@ -7,6 +7,7 @@ configure do
 end
 
 API_AI_TOKEN = ENV["API_AI_TOKEN"]
+TELEGRAM_TOKEN = ENV["TELEGRAM_TOKEN"]
 
 require './requirements'
 

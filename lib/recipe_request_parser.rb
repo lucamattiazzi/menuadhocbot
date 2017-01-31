@@ -11,7 +11,7 @@ class RecipeRequestParser
   end
 
   def get_user
-    return TelegramRequest.new(@message["originalRequest"]["data"]["message"]).save_and_return
+    return TelegramInterface.new(@message["originalRequest"]["data"]["message"]).save_and_return
   end
 
   def parse
