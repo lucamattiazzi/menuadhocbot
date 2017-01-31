@@ -18,5 +18,25 @@ module Wordpress
       end
     end
 
+    def duration
+      times = /tempo\s*:\s*([0-9]+)?([a-z]+)?([0-9]+)?([a-z]+)?/.match(self[:post_excerpt].downcase)
+      return 3601 unless times
+      times[1..-1].compact.each_slice(2).inject(0) do |sum, time|
+        amount = time[0].to_i
+        unit = time[1]
+        multiplier = case unit
+        when "s"
+          1
+        when "min" || "m"
+          60
+        when "h" || "ore" || "ora"
+          3600
+        else
+          0
+        end
+        sum += amount * multiplier
+      end
+    end
+
   end
 end

@@ -19,15 +19,16 @@ module Telegram
     def update_recipe(post)
       self.update_attribute(:last_recipe_post_id, post[:ID])
       self.update_attribute(:last_recipe_post_request_date, Time.now)
-      self.update_attribute(:last_recipe_post_duration, 60 * 60)
+      self.update_attribute(:last_recipe_post_duration, post.duration)
     end
 
     def self.check_and_remember
-      users = self.where(last_recipe_post_feedback: 0).where("last_recipe_post_request_date <= ?", Time.now - self[:last_recipe_post_duration])
+      users = self.where(last_recipe_post_feedback: 0).where("DATE_ADD(last_recipe_post_request_date, INTERVAL last_recipe_post_duration SECOND) <= NOW()")
+      count = users.count
       users.each do |user|
         user.send_remind
       end
-      return users.count
+      return count
     end
 
     def send_remind
