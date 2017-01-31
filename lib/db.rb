@@ -24,8 +24,11 @@ unless ActiveRecord::Base.connection.data_source_exists? "telegram_users"
     t.column :first_name, :string
     t.column :last_name, :string
     t.column :user_name, :string
-    t.column :token, :string
-    t.column :token_creation, :datetime
+    t.column :requests_count, :integer, default: 0
+    t.column :last_recipe_post_id, :integer
+    t.column :last_recipe_post_duration, :integer
+    t.column :last_recipe_post_request_date, :datetime
+    t.column :last_recipe_post_feedback, :integer, default: 0
   end
 end
 

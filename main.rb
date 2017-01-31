@@ -6,30 +6,32 @@ configure do
   set :port, 4568
 end
 
-API_TOKEN = ENV["API_TOKEN"]
+API_AI_TOKEN = ENV["API_AI_TOKEN"]
 
 require './requirements'
 
 get '/' do
-  x = (rand*100).round
-  y = (rand*100).round
-  smile = "<span style='position:absolute; top:#{y}%; left: #{y}%;transform: rotate(90.0deg);font-family: sans-serif'>:-)</span>"
-  @s = (rand > 0.99) ? smile : ""
   erb :home, layout: :layout
 end
 
-post "/api/#{API_TOKEN}" do
+post "/api/#{API_AI_TOKEN}" do
   message = JSON.parse(request.body.read)
-  if message["originalRequest"]["data"].present?
-    username = TelegramMessage.new(message["originalRequest"]["data"]["message"]).save_and_return
+  if message["originalRequest"]["data"].nil?
+    response = "Mi spiace per ora funziono solo via Telegram!"
+  elsif message["result"]["action"] == "richiesta_ricetta"
+    response = RecipeRequestParser.new(message).parse
+  elsif message["result"]["action"] == "fallback"
+    response = FallbackParser.new(message).parse
   else
-    username = "TizioCaio"
+    response = "Mi spiace, non c'agg capit' nu cazz!"
   end
-  if message["result"]["action"] == "richiesta_ricetta"
-    result = RequestParser.new(username, message["result"]["parameters"]).parse
-    content_type :json
-    standard_response(result)
-  end
+  content_type :json
+  standard_response({
+  "telegram": {
+    "text": response,
+    "parse_mode": "Markdown"
+  }
+})
 end
 
 error 400..510 do
@@ -38,11 +40,12 @@ error 400..510 do
   erb :sad_smile, layout: :layout
 end
 
-def standard_response(speech)
+def standard_response(telegram_data)
   {
-    "speech": speech,
-    "displayText": speech,
+    "speech": "",
+    "displayText": "",
+    "data": telegram_data,
     "contextOut": [],
-    "source": "botess"
+    "source": "mah_bot"
   }.to_json
 end
