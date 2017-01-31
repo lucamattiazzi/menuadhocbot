@@ -27,6 +27,10 @@ GEM
     airbrussh (1.1.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (7.1.4)
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
     byebug (9.0.6)
     capistrano (3.6.1)
       airbrussh (>= 1.0.0)
@@ -35,12 +39,21 @@ GEM
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
     capistrano-harrow (0.5.3)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.0.4)
     daemons (1.2.4)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
     dotenv (2.1.1)
+    equalizer (0.0.11)
     eventmachine (1.2.1)
+    faraday (0.11.0)
+      multipart-post (>= 1.2, < 3)
     i18n (0.7.0)
+    ice_nine (0.11.2)
     minitest (5.10.1)
+    multipart-post (2.0.0)
     mustermann (1.0.0.beta2)
     mysql2 (0.4.5)
     net-scp (1.2.1)
@@ -52,6 +65,9 @@ GEM
     sshkit (1.11.4)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    telegram-bot-ruby (0.7.2)
+      faraday
+      virtus
     thin (1.7.0)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -60,6 +76,11 @@ GEM
     tilt (2.0.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    virtus (1.0.5)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
 
 PLATFORMS
   ruby
@@ -72,6 +93,7 @@ DEPENDENCIES
   mysql2
   puma
   sinatra!
+  telegram-bot-ruby
   thin
 
 BUNDLED WITH
