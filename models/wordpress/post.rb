@@ -1,6 +1,9 @@
 module Wordpress
   class Post < Wordpress::Base
     self.table_name = "#{ENV['WORDPRESS_PREFIX']}_posts"
+    has_many :relationships, foreign_key: :object_id
+    has_many :taxonomies, through: :relationships
+    has_many :tags, through: :taxonomies
 
     def self.search_ingredients(course, words, disj, conj = "AND")
       raw_sql = "SELECT ID, post_title FROM #{self.table_name} WHERE post_type = 'post' AND ("
