@@ -12,10 +12,12 @@ TELEGRAM_TOKEN = ENV["TELEGRAM_TOKEN"]
 require './requirements'
 
 get '/' do
+  call_home
   erb :home, layout: :layout
 end
 
 post "/api/#{API_AI_TOKEN}" do
+  call_home
   message = JSON.parse(request.body.read)
   if message["originalRequest"]["data"].nil?
     response = "Mi spiace per ora funziono solo via Telegram!"
@@ -49,4 +51,11 @@ def standard_response(telegram_data)
     "contextOut": [],
     "source": "mah_bot"
   }.to_json
+end
+
+def call_home
+  Thread.new do
+    uri = URI("https://grokked.it/visited_website?site=MenuAdHocBot")
+    Net::HTTP.get(uri)
+  end
 end

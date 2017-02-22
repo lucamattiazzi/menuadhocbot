@@ -14,20 +14,24 @@ set :branch, ENV["BRANCH"] || 'master'
 
 set :scm, :git
 
-after :"deploy:finished", :change_ownership do
-  on roles(:web) do
-    execute "sudo chown -R www-data:www-data #{release_path}/"
-  end
-end
+namespace :deploy do
 
-after :change_ownership, :copy_dotenv do
-  on roles(:web) do
-    execute "ln -ns #{shared_path}/.env #{current_path}/."
+  after :"deploy:finished", :change_ownership do
+    on roles(:web) do
+      execute "sudo chown -R www-data:www-data #{release_path}/"
+    end
   end
-end
 
-after :copy_dotenv, :restart_puma do
-  on roles(:web) do
-    execute "touch #{current_path}/tmp/restart.txt"
+  after :"deploy:change_ownership", :copy_dotenv do
+    on roles(:web) do
+      execute "ln -ns #{shared_path}/.env #{current_path}/."
+    end
   end
+
+  after :"deploy:copy_dotenv", :restart_server do
+    on roles(:web) do
+      execute "sudo systemctl restart menuadhocbot"
+    end
+  end
+
 end
