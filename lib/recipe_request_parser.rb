@@ -15,11 +15,7 @@ class RecipeRequestParser
   end
 
   def parse
-    if @ingredients.size == 0
-      results = Wordpress::Post.random_recipes
-    else
-      results = Wordpress::Post.search_ingredients(@course, @ingredients, @disjunctions)
-    end
+    results = Wordpress::Post.search_ingredients(@course, @ingredients, @disjunctions)
     response = @user.incipit_response
     return results.inject(@user.incipit_response) do |text, post|
       text += "/#{post[:id]} - #{post[:title]}\n"
