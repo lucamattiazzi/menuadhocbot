@@ -19,7 +19,7 @@ end
 post "/api/#{API_AI_TOKEN}" do
   call_home
   message = JSON.parse(request.body.read)
-  if message["originalRequest"]["data"].nil?
+  if message["originalRequest"].nil? || message["originalRequest"]["data"].nil?
     response = "Mi spiace per ora funziono solo via Telegram!"
   elsif message["result"]["action"] == "richiesta_ricetta"
     response = RecipeRequestParser.new(message).parse

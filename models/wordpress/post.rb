@@ -5,15 +5,29 @@ module Wordpress
     has_many :taxonomies, through: :relationships
     has_many :tags, through: :taxonomies
 
+    def self.recipes
+      Wordpress::Tag.find_by_name("Bot").posts
+    end
+
     def self.search_ingredients(course, words, disj, conj = "AND")
-      raw_sql = "SELECT ID, post_title FROM #{self.table_name} WHERE post_type = 'post' AND ("
+      raw_sql = "SELECT ID, post_title FROM #{self.table_name} WHERE AND ("
       words.each_with_index do |word, idx|
-        raw_sql += "post_content LIKE '%#{word}%'"
+        raw_sql += "LOWER(post_content) LIKE '%#{word.downcase}%'"
         next if idx == (words.size - 1)
         raw_sql += " #{conj} "
       end
       raw_sql += ")"
-      return self.find_by_sql(raw_sql).inject([]) do |res, post|
+      return self.recipes.find_by_sql(raw_sql).inject([]) do |res, post|
+        res << {
+          id: post[:ID],
+          title: post[:post_title]
+        }
+      end
+    end
+
+    def random_recipes
+      raw_sql = "SELECT ID, post_title FROM #{self.table_name} ORDER BY RAND() LIMIT 8"
+      return self.recipes.find_by_sql(raw_sql).inject([]) do |res, post|
         res << {
           id: post[:ID],
           title: post[:post_title]
