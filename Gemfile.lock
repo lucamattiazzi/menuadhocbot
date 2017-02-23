@@ -31,7 +31,6 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
-    byebug (9.0.6)
     capistrano (3.6.1)
       airbrussh (>= 1.0.0)
       capistrano-harrow
@@ -39,6 +38,7 @@ GEM
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
     capistrano-harrow (0.5.3)
+    coderay (1.1.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.0.4)
@@ -52,6 +52,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     i18n (0.7.0)
     ice_nine (0.11.2)
+    method_source (0.8.2)
     minitest (5.10.1)
     multipart-post (2.0.0)
     mustermann (1.0.0.beta2)
@@ -59,9 +60,14 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.2.0)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
     puma (3.6.2)
     rack (2.0.1)
     rake (12.0.0)
+    slop (3.6.0)
     sshkit (1.11.4)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -87,10 +93,10 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
-  byebug
   capistrano
   dotenv
   mysql2
+  pry
   puma
   sinatra!
   telegram-bot-ruby

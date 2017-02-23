@@ -17,6 +17,7 @@ get '/' do
 end
 
 post "/api/#{API_AI_TOKEN}" do
+  binding.pry
   call_home
   message = JSON.parse(request.body.read)
   if message["originalRequest"]["data"].nil?

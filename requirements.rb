@@ -1,4 +1,4 @@
-require 'byebug'
+require 'pry'
 require 'json'
 require 'active_record'
 require "telegram/bot"

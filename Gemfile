@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 gem 'sinatra', :github => 'sinatra/sinatra'
 gem 'puma'
-gem 'byebug'
+gem 'pry'
 gem 'thin'
 gem 'mysql2'
 gem 'activerecord'
