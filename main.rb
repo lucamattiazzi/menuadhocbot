@@ -26,7 +26,7 @@ post "/api/#{API_AI_TOKEN}" do
   elsif message["result"]["action"] == "fallback"
     response = FallbackParser.new(message).parse
   else
-    response = "Mi spiace, non c'agg capit' nu cazz!"
+    response = "Mi spiace, non ho capito!"
   end
   content_type :json
   standard_response({

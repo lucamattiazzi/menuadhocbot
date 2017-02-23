@@ -8,9 +8,9 @@ module Telegram
     def incipit_response
       case
       when self[:requests_count] <= 1
-        return "Benvenuto/a #{self[:first_name]}!\nEcco cosa ti propongo:\n"
+        return "Benvenuto #{self[:first_name]}!\nEcco cosa ti propongo:\n"
       when self[:requests_count] <= 10
-        return "Bentornato/a #{self[:first_name]}!\nEcco cosa ti propongo oggi:\n"
+        return "Bentornato #{self[:first_name]}!\nEcco cosa ti propongo oggi:\n"
       else
         return "Un cliente abituale oramai, ciao #{self[:first_name]}!\nLe mie proposte sono:\n"
       end

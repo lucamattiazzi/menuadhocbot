@@ -19,7 +19,7 @@ class FallbackParser
       brag_about_it(post)
       return "Ecco la ricetta che hai scelto #{user[:first_name]}: [#{post[:post_title]}](#{post[:guid]})"
     else
-      return "Basta importunarmi #{user[:first_name]}!"
+      return "Mi spiace, non ho capito #{user[:first_name]}!"
     end
   end
 
