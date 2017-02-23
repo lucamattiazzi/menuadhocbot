@@ -10,14 +10,11 @@ module Wordpress
     end
 
     def self.search_ingredients(course, words, disj, conj = "AND")
-      raw_sql = "SELECT ID, post_title FROM #{self.table_name} WHERE post_type = 'post' AND ("
-      words.each_with_index do |word, idx|
-        raw_sql += "LOWER(post_content) LIKE '%#{word.downcase}%'"
-        next if idx == (words.size - 1)
-        raw_sql += " #{conj} "
+      posts = self.recipes
+      words.each do |word|
+        posts = posts.where("LOWER(post_content) LIKE '%#{word.downcase}%'")
       end
-      raw_sql += ")"
-      return self.recipes.find_by_sql(raw_sql).inject([]) do |res, post|
+      return posts.inject([]) do |res, post|
         res << {
           id: post[:ID],
           title: post[:post_title]
@@ -26,7 +23,7 @@ module Wordpress
     end
 
     def self.random_recipes
-      raw_sql = "SELECT ID, post_title FROM #{self.table_name} WHERE post_type = 'post' ORDER BY RAND() LIMIT 8"
+      raw_sql = "SELECT ID, post_title FROM #{self.table_name}  ORDER BY RAND() LIMIT 8"
       return self.recipes.find_by_sql(raw_sql).inject([]) do |res, post|
         res << {
           id: post[:ID],
