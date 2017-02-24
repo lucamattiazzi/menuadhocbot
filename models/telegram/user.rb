@@ -16,6 +16,10 @@ module Telegram
       end
     end
 
+    def no_result_response
+      return "Mi spiace #{self[:first_name]}, ma non ho trovato ricette con quest'ingrediente!\nEcco delle ricette che potresti provare:\n"
+    end
+
     def update_recipe(post)
       self.update_attribute(:last_recipe_post_id, post[:ID])
       self.update_attribute(:last_recipe_post_request_date, Time.now)
