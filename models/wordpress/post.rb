@@ -23,7 +23,7 @@ module Wordpress
     end
 
     def self.random_recipes
-      raw_sql = "SELECT ID, post_title FROM #{self.table_name}  ORDER BY RAND() LIMIT 8"
+      raw_sql = "SELECT ID, post_title FROM #{self.table_name} ORDER BY RAND() LIMIT 8"
       return self.recipes.find_by_sql(raw_sql).inject([]) do |res, post|
         res << {
           id: post[:ID],

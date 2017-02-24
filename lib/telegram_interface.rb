@@ -9,13 +9,15 @@ class TelegramInterface
   def save_and_return
     user_hash = @message["from"]
     text = @message["text"]
-    return Telegram::User.find_or_create_by(telegram_id: user_hash["id"]) do |user|
+    telegram_user = Telegram::User.find_or_create_by(telegram_id: user_hash["id"]) do |user|
       user.first_name = user_hash["first_name"]
       user.last_name = user_hash["last_name"]
       user.user_name = user_hash["username"]
       user.save
       user.messages.create(text: text)
     end
+
+    return telegram_user
   end
 
   def update_and_return
